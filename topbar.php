@@ -16,7 +16,7 @@
   			
   		</div>
 	  	<div class="col-md-2 float-right">
-		  <h1 style="font-size: 20px; color: white;">Nube privada RH</h1>
+		  <h1 style="font-size: 20px; color: white;">Mi Nube privada HRAEI</h1>
 	    </div>
     </div>
   </div>

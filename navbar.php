@@ -11,7 +11,7 @@
 				<a href="../talentorh/principalRh" class="nav-item nav-home" id="menu"><span class='icon-field'><i class="fa fa-home"></i></span>&nbsp;Home</a>
 		
 		
-				<a href="index.php?page=files" class="nav-item nav-files" id="menu"><span class='icon-field'><i class="fa fa-file"></i></span>&nbsp; Inicio</a>
+				<a href="index?page=files" class="nav-item nav-files" id="menu"><span class='icon-field'><i class="fa fa-file"></i></span>&nbsp; Inicio</a>
 	
 		
 				<?php if(isset($_SESSION['usuarioAdminRh'])): ?>
