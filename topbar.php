@@ -15,7 +15,7 @@
   		<div class="col-md-1 float-left" style="display: flex;">
   			
   		</div>
-	  	<div class="col-md-4 float-right">
+	  	<div class="col-md-3 float-right">
 		  <h1 style="font-size: 20px; color: white;">Mi Nube privada HRAEI</h1>
 	    </div>
     </div>
