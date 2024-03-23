@@ -11,7 +11,7 @@
 <?php
 	session_start();
   if(!isset($_SESSION['usuarioAdminRh']))
-    header('location: ../sitiorecursoshumanos/index');
+    header('location: ../talentorh/index');
  include('./header.php'); 
  // include('./auth.php'); 
  ?>

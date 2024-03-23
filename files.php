@@ -71,13 +71,13 @@ body {
 
 					$path = $conn->query("SELECT * FROM folders where id = $id  order by name asc")->fetch_array();
 					echo '<script>
-						$("#paths").prepend("<a href=\"index.php?page=files&fid='.$path['id'].'\">'.$path['name'].'</a>/")
+						$("#paths").prepend("<a href=\"index?page=files&fid='.$path['id'].'\">'.$path['name'].'</a>/")
 					</script>';
 					$id = $path['parent_id'];
 
 				}
 				echo '<script>
-						$("#paths").prepend("<a href=\"index.php?page=files\">..</a>/")
+						$("#paths").prepend("<a href=\"index?page=files\">..</a>/")
 					</script>';
 				?>
 					
