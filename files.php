@@ -1,15 +1,17 @@
+
 <?php 
 include 'header.php';
 include 'db_connect.php';
-$usernameSesion = $_SESSION['usuarioAdminRh'];
+if(isset($_SESSION['usuarioAdminRh'])){ $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])){ $usernameSesion = $_SESSION['usuarioDatos']; }
+	
 $sql = $conexion->query("SELECT Empleado from plantillahraei where correo = '$usernameSesion'");
 	$row = mysqli_fetch_assoc($sql);
 $id_empleado = $row['Empleado'];
 $folder_parent = isset($_GET['fid'])? $_GET['fid'] : 0;
-$folders = $conn->query("SELECT * FROM folders where parent_id = $folder_parent and user_id = '".$id_empleado."'  order by name asc");
+$folders = $conn->query("SELECT * FROM folders where parent_id = $folder_parent and user_id = $id_empleado  order by name asc");
 
 
-$files = $conn->query("SELECT * FROM files where folder_id = $folder_parent and user_id = '".$id_empleado."'  order by name asc");
+$files = $conn->query("SELECT * FROM files where folder_id = $folder_parent and user_id = $id_empleado order by name asc");
 
 ?>
 <style>
@@ -45,7 +47,7 @@ a.custom-menu-list:hover,.file-item:hover,.file-item.active {
     background: #80808024;
 }
 table th,td{
-	/*border-left:1px solid gray;*/
+	border-left:1px solid gray;
 }
 a.custom-menu-list span.icon{
 		width:1em;
@@ -59,12 +61,14 @@ body {
 	background-color: #F8FEFF;
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <div class="container-fluid">
 	<div class="col-lg-12" >
 		<div class="row" >
 			<div class="card col-lg-12" style="height: auto; padding: 0px; margin-top: 0px; background-color: #ffffff; color: black;">
 				<div class="card-body" id="paths" style="color: black;">
-				 <a href="index?page=files" class="">..</a>
+				<a href="index?page=files" class="">..</a>
 				<?php 
 				$id=$folder_parent;
 				while($id > 0){
@@ -121,7 +125,7 @@ body {
 		
 		</style>
 		<div class="row">
-			<div class="card col-md-12" style="padding: 0px;">
+			<div class="card col-md-12" style="padding: 0px; font-size: 15px;">
 				<div class="card-body">
 					<table id="example" class="table table-striped table-bordered table-darkgray table-hover">
 						<thead>
@@ -129,6 +133,8 @@ body {
 							<th>Nombre del archivo</th>
 							<th>Fecha de carga</th>
 							<th>Descripción</th>
+							<th>Ver</th>
+							<th>Eliminar</th>
 						</tr>
 						</thead>
 						<?php 
@@ -153,13 +159,16 @@ body {
 						
 					?>
 					
-						<tr class='file-item' data-id="<?php echo $row['id'] ?>" data-name="<?php echo $name ?>">
+						<tr class='//file-item' data-id="<?php echo $row['id'] ?>" data-name="<?php echo $name ?>">
 							<td><large><span><i class="fa <?php echo $icon ?>"></i></span><b class="to_file"></b> <?php echo $name ?></large>
 							<input type="text" class="rename_file" value="<?php echo $row['name'] ?>" data-id="<?php echo $row['id'] ?>" data-type="<?php echo $row['file_type'] ?>" style="display: none">
 
 							</td>
 							<td><i class="to_file"><?php echo date('Y/m/d h:i A',strtotime($row['date_updated'])) ?></i></td>
 							<td><i class="to_file"><?php echo $row['description'] ?></i></td>
+							<td><a href="#" class="verydescargar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-eye"></i> Ver y Descargar</a></td>
+							<!--<td><button type="button" value='<?php echo  $row['id'] ?>' style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-download"></i>Descargar</button></td>-->
+							<td><a href="#" class="eliminar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: red; background: none; border: none;"><i class="fa fa-trash"></i> Eliminar</a></td>
 						</tr>
 					
 					<?php endwhile; ?>
@@ -184,18 +193,126 @@ body {
                             if (column.search() !== this.value) {
                                 column.search(input.value).draw();
                             }
+							
                         });
+						
                     });
             }
         });
         $('#example tfoot tr').appendTo('#example thead');
+		var table = new DataTable('#example', {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+    },
+});
         </script>
+		<script type="text/javascript">
+    /*$("button").click(function() {
+        var id = $(this).val(); 
+        let ob = {
+            id: id
+        };
+		
+		window.open('download.php?id='+$(this).val());*/
+            /*$.ajax({
+                data: ob,
+                url: '',
+                method: 'POST',
+                beforeSend: function() {
+
+                },
+                success: function(response) {
+                    //$("#tabla_resultado").html(response);
+                    //$("#tabla_resultado").load('consultaCarga.php');
+                }
+            });*/
+        
+    //});
+	$(document).on('click', '.verydescargar', function () {
+
+var descr = $(this).attr('data-descr');
+$('#exampleModal input[name=identificador]').val(descr);
+let ob = {descr:descr}
+$.ajax({
+                url: 'consultaArchivo.php',
+                type: 'POST',
+				data: ob,
+                dataType: 'html',
+            })
+
+            .done(function(resultado) {
+                $("#tabla_resultado").html(resultado);
+            })
+// aquí es cuando tienes que mirar la documentación de tu framework
+$('#exampleModal').modal('show'); // o similar
+
+});
+
+$(document).on('click', '.eliminar', function () {
+
+var descr = $(this).attr('data-descr');
+$('#exampleModal input[name=identificador]').val(descr);
+
+var mensaje = confirm("el registro se eliminara")
+        let ob = {
+            descr: descr
+        };
+		if (mensaje == true) {
+$.ajax({
+                url: 'eliminarDocumento.php',
+                type: 'POST',
+				data: ob,
+                dataType: 'html',
+            })
+
+            .done(function(resultado) {
+                $("#tabla_mensaje").html(resultado);
+				setTimeout(function() {
+                                window.location.reload();
+                            }, 2000);
+            })
+		} else {
+            Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: 'Acción cancelada',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        }
+// aquí es cuando tienes que mirar la documentación de tu framework
+//$('#exampleModal').modal('show'); // o similar
+
+});
+</script>
     </div>
 				</div>
 			</div>
 			
 		</div>
 	</div>
+</div>
+<div id="tabla_mensaje"></div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #F8FEFF;">
+        <h5 class="modal-title" id="exampleModalLabel">Documento</h5>
+      </div>
+      <div class="modal-body">
+	  <input type="hidden" name="identificador" id="identificador" value="" placeholder="Cédula">
+	  
+			<div id="tabla_resultado"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cerrar</button>
+        <!--<a href="<?php echo "uploads/1983/$nameFile" ?>" class="btn btn-primary" target='_blank'>Descargar</a>-->
+		<?php 
+	
+	?>
+      </div>
+    </div>
+  </div>
 </div>
 <div id="menu-folder-clone" style="display: none;">
 	<a href="javascript:void(0)" class="custom-menu-list file-option edit">Renombrar</a>

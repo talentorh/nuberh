@@ -29,7 +29,7 @@ a.custom-menu-list:hover,.file-item:hover,.file-item.active {
     background: #80808024;
 }
 table th,td{
-	/*border-left:1px solid gray;*/
+	border-left:1px solid gray;
 }
 a.custom-menu-list span.icon{
 		width:1em;

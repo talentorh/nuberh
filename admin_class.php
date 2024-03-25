@@ -41,7 +41,7 @@ Class Action {
 		$data .= ", parent_id ='".$parent_id."' ";
 		if(empty($id)){
 			include 'db_connect.php';
-$usernameSesion = $_SESSION['usuarioAdminRh'];
+if(isset($_SESSION['usuarioAdminRh'])) { $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])) { $usernameSesion = $_SESSION['usuarioDatos']; }
 $sql = $conexion->query("SELECT Empleado from plantillahraei where correo = '$usernameSesion'");
 	$row = mysqli_fetch_assoc($sql);
 $id_empleado = $row['Empleado'];
@@ -93,7 +93,7 @@ $id_empleado = $row['Empleado'];
 		extract($_POST);
 		if(empty($id)){
 			include 'db_connect.php';
-$usernameSesion = $_SESSION['usuarioAdminRh'];
+			if(isset($_SESSION['usuarioAdminRh'])) { $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])) { $usernameSesion = $_SESSION['usuarioDatos']; }
 $sql = $conexion->query("SELECT Empleado from plantillahraei where correo = '$usernameSesion'");
 	$row = mysqli_fetch_assoc($sql);
 $id_empleado = $row['Empleado'];

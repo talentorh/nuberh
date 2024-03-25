@@ -3,6 +3,10 @@
 		background-color: #27566E;
 		color: white;
 	}
+	#menu {
+		background-color: white;
+		color: black;
+	}
 </style>
 
 <nav id="sidebar" class='mx-lt-5' style="margin-top: 7px; background-color: white;">
@@ -14,7 +18,7 @@
 				<a href="index?page=files" class="nav-item nav-files" id="menu"><span class='icon-field'><i class="fa fa-file"></i></span>&nbsp; Inicio</a>
 	
 		
-				<?php if(isset($_SESSION['usuarioAdminRh'])): ?>
+				<?php if(isset($_SESSION['usuarioAdminRh']) or isset($_SESSION['usuarioDatos'])): ?>
 				<!--<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Users</a>-->
 				
 				<a href="../talentorh/close_sesion" class="nav-item nav-files" id="menu" style="bottom:0px;position:relative;"><span class='icon-field'><i class="fa fa-power-off"></i></span>&nbsp;Cerrar sesión</a>

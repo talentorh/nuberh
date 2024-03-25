@@ -8,20 +8,14 @@
   <title>Archivos de sistema</title>
  	
 
-<?php
-	session_start();
-  if(!isset($_SESSION['usuarioAdminRh']))
-    header('location: ../talentorh/index');
- include('./header.php'); 
+<?php session_start();
+ // if(!isset($_SESSION['usuarioAdminRh'])){ header('location: ../talentorh/index'); }else if(!isset($_SESSION['usuarioDatos'])){ header('location: ../talentorh/index'); }
+
+ //include('./header.php'); 
  // include('./auth.php'); 
  ?>
 
 </head>
-<style>
-	body{
-        background: #80808045;
-  }
-</style>
 
 <body>
 	<?php include 'topbar.php' ?>
@@ -64,7 +58,7 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success btn-sm" id='submit' onclick="$('#uni_modal form').submit()">Subir</button>
+        <button type="button" class="btn btn-success btn-sm" id='submit' onclick="$('#uni_modal form').submit()">Subir archivo</button>
         <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
       </div>
       </div>
