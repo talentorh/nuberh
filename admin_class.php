@@ -93,7 +93,7 @@ $id_empleado = $row['Empleado'];
 		extract($_POST);
 		if(empty($id)){
 			include 'db_connect.php';
-			if(isset($_SESSION['usuarioAdminRh'])) { $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])) { $usernameSesion = $_SESSION['usuarioDatos']; }
+			if(isset($_SESSION['usuarioAdminRh'])) { $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])) { $usernameSesion = $_SESSION['usuarioDatos']; }else if(isset($_SESSION['usuarioJefe'])) { $usernameSesion = $_SESSION['usuarioJefe']; }
 $sql = $conexion->query("SELECT Empleado from plantillahraei where correo = '$usernameSesion'");
 	$row = mysqli_fetch_assoc($sql);
 $id_empleado = $row['Empleado'];
