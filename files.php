@@ -2,7 +2,7 @@
 <?php 
 include 'header.php';
 include 'db_connect.php';
-if(isset($_SESSION['usuarioAdminRh'])){ $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])){ $usernameSesion = $_SESSION['usuarioDatos']; }
+if(isset($_SESSION['usuarioAdminRh'])){ $usernameSesion = $_SESSION['usuarioAdminRh']; }else if(isset($_SESSION['usuarioDatos'])){ $usernameSesion = $_SESSION['usuarioDatos']; }else if(isset($_SESSION['usuarioJefe'])){ $usernameSesion = $_SESSION['usuarioJefe']; }
 	
 $sql = $conexion->query("SELECT Empleado from plantillahraei where correo = '$usernameSesion'");
 	$row = mysqli_fetch_assoc($sql);
@@ -134,6 +134,7 @@ body {
 							<th>Fecha de carga</th>
 							<th>Descripción</th>
 							<th>Ver</th>
+							<th>Descargar</th>
 							<th>Eliminar</th>
 						</tr>
 						</thead>
@@ -166,8 +167,8 @@ body {
 							</td>
 							<td><i class="to_file"><?php echo date('Y/m/d h:i A',strtotime($row['date_updated'])) ?></i></td>
 							<td><i class="to_file"><?php echo $row['description'] ?></i></td>
-							<td><a href="#" class="verydescargar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-eye"></i> Ver y Descargar</a></td>
-							<!--<td><button type="button" value='<?php echo  $row['id'] ?>' style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-download"></i>Descargar</button></td>-->
+							<td><a href="#" class="verydescargar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-eye"></i> Ver</a></td>
+							<td><a href="#" class="descargar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: green; background: none; border: none;"><i class="fa fa-download"></i> Descargar</a></td>
 							<td><a href="#" class="eliminar" data-descr="<?php echo $row['id'] ?>" style="font-size: 15px; color: red; background: none; border: none;"><i class="fa fa-trash"></i> Eliminar</a></td>
 						</tr>
 					
@@ -207,14 +208,11 @@ body {
 });
         </script>
 		<script type="text/javascript">
-    /*$("button").click(function() {
-        var id = $(this).val(); 
-        let ob = {
-            id: id
-        };
+    $(document).on('click', '.descargar', function () {
+        var id = $(this).attr('data-descr');
 		
-		window.open('download.php?id='+$(this).val());*/
-            /*$.ajax({
+		window.open('download.php?id='+id);
+            $.ajax({
                 data: ob,
                 url: '',
                 method: 'POST',
@@ -225,9 +223,9 @@ body {
                     //$("#tabla_resultado").html(response);
                     //$("#tabla_resultado").load('consultaCarga.php');
                 }
-            });*/
+            });
         
-    //});
+    });
 	$(document).on('click', '.verydescargar', function () {
 
 var descr = $(this).attr('data-descr');
@@ -251,7 +249,7 @@ $('#exampleModal').modal('show'); // o similar
 $(document).on('click', '.eliminar', function () {
 
 var descr = $(this).attr('data-descr');
-$('#exampleModal input[name=identificador]').val(descr);
+
 
 var mensaje = confirm("el registro se eliminara")
         let ob = {
