@@ -33,8 +33,8 @@ $qry = $conn->query("SELECT * FROM files where id=".$_GET['id']);
                 value="<?php echo isset($meta['description']) ? $meta['description'] :'' ?>">
         </div>
         <div class="form-group">
-            <label for="is_public" class="control-label"><input type="checkbox" name="is_public" id="is_public"><i>
-                    Compartir con todos los usuarios</i></label>
+            <!--<label for="is_public" class="control-label"><input type="checkbox" name="is_public" id="is_public"><i>
+                    Compartir con todos los usuarios</i></label>-->
         </div>
         <div class="form-group" id="msg"></div>
 
